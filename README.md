@@ -22,6 +22,10 @@ Understanding React Components: A Deep Dive
 - Webpack: This is a module bundler that is often used for React development. It helps in bundling the code and assets, and also has several plugins for optimizing the build.
 - Babel: This is a JavaScript compiler that helps in transforming modern JavaScript code into a format that can be run in older browsers.
 - ESLint: This is a popular linter that helps in enforcing coding standards and finding potential issues in the code. It has several plugins for React development.
+### Playground
+- Codepen
+- CodeSandbox
+- Sandblitz
 
 ## Understanding React Components: A Deep Dive
 - React lets you build user interfaces out of individual pieces called components. 
