@@ -12,9 +12,12 @@ Understanding React Components: A Deep Dive
 -   It uses a virtual DOM (Document Object Model) to render changes to the UI, which makes it fast and efficient.
     - In web development, the Document Object Model (DOM) is a programming interface that represents the structure of an HTML document as a tree-like model. 
     - The Virtual DOM is a concept used in the React library, which is an abstract representation of the DOM, a lightweight copy of it.
-  - 
+
 ### Why react?
+
 ### When to use react?
+- React can be use both the cases, to add some interactivity to a simple HTML page, or start a complex React-powered app.
+- 
 ### Tools
 - React Developer Tools: This is a browser extension that helps in debugging and inspecting React components.
 - Redux DevTools: This is another browser extension that helps in debugging Redux-based applications.
@@ -26,6 +29,8 @@ Understanding React Components: A Deep Dive
 - Codepen
 - CodeSandbox
 - Sandblitz
+
+## Add React to a Website[]
 
 ## Understanding React Components: A Deep Dive
 - React lets you build user interfaces out of individual pieces called components. 
