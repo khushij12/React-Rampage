@@ -1,4 +1,4 @@
-- Conceptually, components are like JavaScript functions. They accept arbitrary inputs (called “props”)
+Conceptually, components are like JavaScript functions. They accept arbitrary inputs (called “props”)
 
 # Props are Read-Only
 ```js
