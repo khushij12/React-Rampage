@@ -29,6 +29,9 @@ You can place a “container” <div> like this anywhere inside the <body> tag. 
 
 The first two tags load React. The third one will load your component code.
 
+#### crossorigin
+<!--todo-->
+
 ### Step 3: Create a React Component
 
 Create a file called like_button.js next to your HTML page.
