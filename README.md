@@ -17,7 +17,6 @@ Understanding React Components: A Deep Dive
 
 ### When to use react?
 - React can be use both the cases, to add some interactivity to a simple HTML page, or start a complex React-powered app.
-- 
 
 ### Working of react
 - React separates concerns with loosely coupled units called “components”.
