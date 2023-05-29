@@ -29,12 +29,13 @@ Understanding React Components: A Deep Dive
 - Webpack: This is a module bundler that is often used for React development. It helps in bundling the code and assets, and also has several plugins for optimizing the build.
 - Babel: This is a JavaScript compiler that helps in transforming modern JavaScript code into a format that can be run in older browsers.
 - ESLint: This is a popular linter that helps in enforcing coding standards and finding potential issues in the code. It has several plugins for React development.
+
 ### Playground
 - Codepen
 - CodeSandbox
 - Sandblitz
 
-## [Add React to a Website](https://github.com/khushij12/React-Rampage/tree/main/To%20Add%20react%20in%20website)
+## Add React to a Website - [Example code](https://github.com/khushij12/React-Rampage/tree/main/To%20Add%20react%20in%20website)
 
 ## Understanding React Components: A Deep Dive
 - React lets you build user interfaces out of individual pieces called components. 
@@ -99,7 +100,7 @@ React Router is a routing library built on top of React, which is used to create
 - React Router is a collection of navigational components that compose declaratively with your application.
 - React Router has a simple API with powerful features like lazy code loading, dynamic route matching, and location transition handling built right in.
 
-Simple Route example - link
+[Simple Route example](https://github.com/khushij12/React-Rampage/tree/main/react-routing)
 
 ## What is Redux?
 Redux is the JS library used to manage the application state. React is the view layer of the application, and Redux is the model layer. 
@@ -153,7 +154,7 @@ Stateful class components:
 
 ## What is the use of render() in React?
 It is required for each component to have a render() function. This function returns the HTML, which is to be displayed in the component.
-If you need to render more than one element, all of the elements must be inside one parent tag like <div>, <form>.
+If you need to render more than one element, all of the elements must be inside one parent tag like div, form.
 
 ## What is a state in React?
 State is an object which holds some information that may change over the lifetime of the component. It is mutable.
