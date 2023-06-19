@@ -18,9 +18,6 @@ Understanding React Components: A Deep Dive
 ### When to use react?
 - React can be use both the cases, to add some interactivity to a simple HTML page, or start a complex React-powered app.
 
-### Working of react
-- React separates concerns with loosely coupled units called “components”.
-
 ### Tools
 - React Developer Tools: This is a browser extension that helps in debugging and inspecting React components.
 - Redux DevTools: This is another browser extension that helps in debugging Redux-based applications.
