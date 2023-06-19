@@ -34,3 +34,45 @@ class ErrorBoundary extends React.Component {
   <MyWidget />
 </ErrorBoundary>
 ```
+## How About try/catch?
+try / catch is great but it only works for imperative code:
+```js
+try {
+  showButton();
+} catch (error) {
+  // ...
+}
+```
+However, React components are declarative and specify what should be rendered:
+
+```js
+<Button />
+```
+
+## How About Event Handlers?
+Error boundaries do not catch errors inside event handlers.
+If you need to catch an error inside an event handler, use the regular JavaScript try / catch statement:
+```js
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { error: null };
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    try {
+      // Do something that could throw
+    } catch (error) {
+      this.setState({ error });
+    }
+  }
+
+  render() {
+    if (this.state.error) {
+      return <h1>Caught an error.</h1>
+    }
+    return <button onClick={this.handleClick}>Click Me</button>
+  }
+}
+```
