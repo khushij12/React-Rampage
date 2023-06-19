@@ -222,6 +222,12 @@ and many more..
 ## What are synthetic events in React?
 - Synthetic events are the objects which act as a cross-browser wrapper around the browser’s native event. They combine the behavior of different browsers into one API. This is done to make sure that the events show consistent properties across different browsers. For eg. preventDefault() and stopPropagation().
 
+## What is error boundary?
+A class component which implements either one or both of the lifecycle method: getDerivedStateFromError and componentDidCatch then it becomes an error boundary. Also placement of error boundary also matter as it can controls whether the entire app should have the fallback UI or just the component that causing the problem. Refer [this](https://github.com/khushij12/React-Rampage/tree/main/Error%20Boundary) for more info.
+
+## Purpose of getDerivedStateFromError and componentDidCatch?
+The static method getDerivedStateFromError is used to render a fallback UI after an error is thrown and the componentDidCatch is used to log the error information.
+
 <!--example-->
 
 ## Explain how lists work in React
