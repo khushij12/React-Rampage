@@ -10,7 +10,7 @@
 
 <!-- ... existing HTML ... -->
 ```
-You can place a “container” <div> like this anywhere inside the <body> tag. You may have as many independent DOM containers on one page as you need. They are usually empty — React will replace any existing content inside DOM containers.
+You can place a container ```<div>``` like this anywhere inside the <body> tag. You may have as many independent DOM containers on one page as you need. They are usually empty — React will replace any existing content inside DOM containers.
 
 ### Step 2: Add the Script Tags
 ```html
