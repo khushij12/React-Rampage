@@ -35,7 +35,7 @@ Understanding React Components: A Deep Dive
 
 # Questions:
 
-## How does React work?
+## How does React work/How Virtual DOM works?
 React creates a virtual DOM. When a state changes it run diffing alogorithm to find out what has changed in virtual DOM. The second step is called reconciliation, where it updates the DOM with the results of diff.
 
 ## What is the use of refs?
@@ -175,7 +175,7 @@ It is an alternative way to return the HTML from the render method of the compon
 No, browsers can only read JavaScript objects but JSX is not a regular JavaScript object. Thus, it needs to be compiled into JavaScript objects. For this, we use Babel.
 
 ## What is virtual DOM?
-The Virtual DOM is a concept used in the React library, which is an abstract representation of the DOM, a lightweight copy of it. When the state of an object changes, the virtual DOM changes only that object in the real DOM, rather than updating all the objects. 
+The Virtual DOM is a concept used in the React library, which is an abstract representation of the DOM, a lightweight copy of it. When the state of an object changes, the virtual DOM changes only that object in the real DOM, rather than updating all the objects. The Virtual DOM (VDOM) is an in-memory representation of Real DOM. The representation of a UI is kept in memory and synced with the "real" DOM. It's a step that happens between the render function being called and the displaying of elements on the screen. This entire process is called reconciliation.
 
 ## What is the difference between ReactJS and AngularJS?
 - ReactJS is a library / AngularJS is a framework
@@ -230,6 +230,393 @@ The static method getDerivedStateFromError is used to render a fallback UI after
 
 <!--example-->
 
+## What are Pure Components?
+Pure components are the components which render the same output for the same state and props. In function components, you can achieve these pure components through memoized React.memo() API wrapping around the component. This API prevents unnecessary re-renders by comparing the previous props and new props using shallow comparison. So it will be helpful for performance optimizations.
+
+But at the same time, it won't compare the previous state with the current state because function component itself prevents the unnecessary rendering by default when you set the same state again.
+
+The syntactic representation of memoized components looks like below,
+
+const MemoizedComponent = memo(SomeComponent, arePropsEqual?);
+Below is the example of how child component(i.e., EmployeeProfile) prevents re-renders for the same props passed by parent component(i.e.,EmployeeRegForm).
+```js
+  import { memo, useState } from 'react';
+
+  const EmployeeProfile = memo(function EmployeeProfile({ name, email }) {
+    return (<>
+          <p>Name:{name}</p>
+          <p>Email: {email}</p>
+          </>);
+  });
+  export default function EmployeeRegForm() {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    return (
+      <>
+        <label>
+          Name: <input value={name} onChange={e => setName(e.target.value)} />
+        </label>
+        <label>
+          Email: <input value={email} onChange={e => setEmail(e.target.value)} />
+        </label>
+        <hr/>
+        <EmployeeProfile name={name}/>
+      </>
+    );
+  }
+  ```
+In the above code, the email prop has not been passed to child component. So there won't be any re-renders for email prop change.
+
+In class components, the components extending React.PureComponent instead of React.Component become the pure components. When props or state changes, PureComponent will do a shallow comparison on both props and state by invoking shouldComponentUpdate() lifecycle method.
+
+Note: React.memo() is a higher-order component.
+
+## What is state in React?
+State of a component is an object that holds some information that may change over the lifetime of the component. The important point is whenever the state object changes, the component re-renders. It is always recommended to make our state as simple as possible and minimize the number of stateful components.
+
+state
+
+Let's take an example of User component with message state. Here, useState hook has been used to add state to the User component and it returns an array with current state and function to update it.
+```js
+import React, { useState } from "react";
+
+function User() {
+  const [message, setMessage] = useState("Welcome to React world");
+
+  return (
+    <div>
+      <h1>{message}</h1>
+    </div>
+  );
+}
+```
+See Class
+```js
+import React from 'react';
+class User extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      message: "Welcome to React world",
+    };
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>{this.state.message}</h1>
+      </div>
+    );
+  }
+}
+```
+State is similar to props, but it is private and fully controlled by the component ,i.e., it is not accessible to any other component till the owner component decides to pass it.
+
+## What are props in React?
+Props are inputs to components. They are single values or objects containing a set of values that are passed to components on creation similar to HTML-tag attributes. Here, the data is passed down from a parent component to a child component.
+
+The primary purpose of props in React is to provide following component functionality:
+
+Pass custom data to your component.
+Trigger state changes.
+Use via this.props.reactProp inside component's render() method.
+For example, let us create an element with reactProp property:
+```js
+<Element reactProp={"1"} />
+```
+This reactProp (or whatever you came up with) attribute name then becomes a property attached to React's native props object which originally already exists on all components created using React library.
+```js
+props.reactProp
+```
+For example, the usage of props in function component looks like below:
+```js
+import React from "react";
+import ReactDOM from "react-dom";
+
+const ChildComponent = (props) => {
+  return (
+    <div>
+      <p>{props.name}</p>
+      <p>{props.age}</p>
+    </div>
+  );
+};
+
+const ParentComponent = () => {
+  return (
+    <div>
+      <ChildComponent name="John" age="30" />
+      <ChildComponent name="Mary" age="25" />
+    </div>
+  );
+};
+```
+The properties from props object can be accessed directly using destructing feature from ES6 (ECMAScript 2015). The above child component can be simplified like below.
+```js
+  const ChildComponent = ({name, age}) => {
+      return (
+        <div>
+          <p>{name}</p>
+          <p>{age}</p>
+        </div>
+      );
+    };
+    ```
+See Class
+
+The Props accessed in Class Based Component as below
+```js
+      import React from "react";
+      import ReactDOM from "react-dom";
+
+      class ChildComponent extends React.Component {
+        render() {
+          return (
+            <div>
+              <p>{this.props.name}</p>
+              <p>{this.props.age}</p>
+            </div>
+          );
+        }
+      }
+
+      class ParentComponent extends React.Component {
+        render() {
+          return (
+            <div>
+              <ChildComponent name="John" age="30" />
+              <ChildComponent name="Mary" age="25" />
+            </div>
+          );
+        }
+      }
+```
+      
+## Why should we not update the state directly?
+If you try to update the state directly then it won't re-render the component.
+
+//Wrong
+this.state.message = "Hello world";
+Instead use setState() method. It schedules an update to a component's state object. When state changes, the component responds by re-rendering.
+
+//Correct
+this.setState({ message: "Hello World" });
+Note: You can directly assign to the state object either in constructor or using latest javascript's class field declaration syntax.
+
+## What is the purpose of callback function as an argument of setState()?
+The callback function is invoked when setState finished and the component gets rendered. Since setState() is asynchronous the callback function is used for any post action.
+
+Note: It is recommended to use lifecycle method rather than this callback function.
+```js
+setState({ name: "John" }, () =>
+  console.log("The name has updated and component re-rendered")
+);
+```
+## What is the difference between HTML and React event handling?
+Below are some of the main differences between HTML and React event handling,
+
+    1. In HTML, the event name usually represents in _lowercase_ as a convention:
+
+       ```html
+       <button onclick="activateLasers()"></button>
+       ```
+
+       Whereas in React it follows _camelCase_ convention:
+
+       ```jsx harmony
+       <button onClick={activateLasers}>
+       ```
+
+    2. In HTML, you can return `false` to prevent default behavior:
+
+       ```html
+       <a
+         href="#"
+         onclick='console.log("The link was clicked."); return false;'
+       />
+       ```
+
+       Whereas in React you must call `preventDefault()` explicitly:
+
+       ```javascript
+       function handleClick(event) {
+         event.preventDefault();
+         console.log("The link was clicked.");
+       }
+       ```
+
+## How to bind methods or event handlers in JSX callbacks?
+
+    There are 3 possible ways to achieve this in class components:
+
+    1. **Binding in Constructor:** In JavaScript classes, the methods are not bound by default. The same rule applies for React event handlers defined as class methods. Normally we bind them in constructor.
+
+       ```javascript
+       class User extends Component {
+         constructor(props) {
+           super(props);
+           this.handleClick = this.handleClick.bind(this);
+         }
+         handleClick() {
+           console.log("SingOut triggered");
+         }
+         render() {
+           return <button onClick={this.handleClick}>SingOut</button>;
+         }
+       }
+       ```
+
+    2. **Public class fields syntax:** If you don't like to use bind approach then _public class fields syntax_ can be used to correctly bind callbacks. The Create React App eanables this syntax by default.
+
+       ```jsx harmony
+       handleClick = () => {
+         console.log("SingOut triggered", this);
+       };
+       ```
+
+       ```jsx harmony
+       <button onClick={this.handleClick}>SingOut</button>
+       ```
+
+    3. **Arrow functions in callbacks:** It is possible to use _arrow functions_ directly in the callbacks.
+
+       ```jsx harmony
+       handleClick() {
+           console.log('SingOut triggered');
+       }
+       render() {
+           return <button onClick={() => this.handleClick()}>SignOut</button>;
+       }
+       ```
+
+    **Note:** If the callback is passed as prop to child components, those components might do an extra re-rendering. In those cases, it is preferred to go with `.bind()` or _public class fields syntax_ approach considering performance.
+
+## What are inline conditional expressions?
+You can use either _if statements_ or _ternary expressions_ which are available from JS to conditionally render expressions. Apart from these approaches, you can also embed any expressions in JSX by wrapping them in curly braces and then followed by JS logical operator `&&`.
+
+    ```jsx harmony
+    <h1>Hello!</h1>;
+    {
+      messages.length > 0 && !isLogin ? (
+        <h2>You have {messages.length} unread messages.</h2>
+      ) : (
+        <h2>You don't have unread messages.</h2>
+      );
+    }
+    ```
+
+## How to create refs?
+ There are two approaches
+
+    1. This is a recently added approach. _Refs_ are created using `React.createRef()` method and attached to React elements via the `ref` attribute. In order to use _refs_ throughout the component, just assign the _ref_ to the instance property within constructor.
+
+       ```jsx harmony
+       class MyComponent extends React.Component {
+         constructor(props) {
+           super(props);
+           this.myRef = React.createRef();
+         }
+         render() {
+           return <div ref={this.myRef} />;
+         }
+       }
+       ```
+
+    2. You can also use ref callbacks approach regardless of React version. For example, the search bar component's input element is accessed as follows,
+       ```jsx harmony
+       class SearchBar extends Component {
+         constructor(props) {
+           super(props);
+           this.txtSearch = null;
+           this.state = { term: "" };
+           this.setInputSearchRef = (e) => {
+             this.txtSearch = e;
+           };
+         }
+         onInputChange(event) {
+           this.setState({ term: this.txtSearch.value });
+         }
+         render() {
+           return (
+             <input
+               value={this.state.term}
+               onChange={this.onInputChange.bind(this)}
+               ref={this.setInputSearchRef}
+             />
+           );
+         }
+       }
+       ```
+
+## What are forward refs?
+
+    _Ref forwarding_ is a feature that lets some components take a _ref_ they receive, and pass it further down to a child.
+
+    ```jsx harmony
+    const ButtonElement = React.forwardRef((props, ref) => (
+      <button ref={ref} className="CustomButton">
+        {props.children}
+      </button>
+    ));
+
+    // Create ref to the DOM button:
+    const ref = React.createRef();
+    <ButtonElement ref={ref}>{"Forward Ref"}</ButtonElement>;
+    ```
+
+## Which is preferred option with in callback refs and findDOMNode()
+while both callback refs and findDOMNode() can be used for DOM manipulation in ReactJS, it is recommended to use callback refs as the preferred option due to its compatibility with future versions of React and its flexibility in accessing and manipulating DOM elements
+
+## Why are String Refs legacy?
+
+    If you worked with React before, you might be familiar with an older API where the `ref` attribute is a string, like `ref={'textInput'}`, and the DOM node is accessed as `this.refs.textInput`. We advise against it because _string refs have below issues_, and are considered legacy. String refs were **removed in React v16**.
+
+    1. They _force React to keep track of currently executing component_. This is problematic because it makes react module stateful, and thus causes weird errors when react module is duplicated in the bundle.
+    2. They are _not composable_ — if a library puts a ref on the passed child, the user can't put another ref on it. Callback refs are perfectly composable.
+    3. They _don't work with static analysis_ like Flow. Flow can't guess the magic that framework does to make the string ref appear on `this.refs`, as well as its type (which could be different). Callback refs are friendlier to static analysis.
+    4. It doesn't work as most people would expect with the "render callback" pattern (e.g. <DataGrid renderRow={this.renderRow} />)
+
+       ```jsx harmony
+       class MyComponent extends Component {
+         renderRow = (index) => {
+           // This won't work. Ref will get attached to DataTable rather than MyComponent:
+           return <input ref={"input-" + index} />;
+
+           // This would work though! Callback refs are awesome.
+           return <input ref={(input) => (this["input-" + index] = input)} />;
+         };
+
+         render() {
+           return (
+             <DataTable data={this.props.data} renderRow={this.renderRow} />
+           );
+         }
+       }
+       ```
+## What is the difference between Shadow DOM and Virtual DOM?
+The Shadow DOM is a browser technology designed primarily for scoping variables and CSS in web components. The Virtual DOM is a concept implemented by libraries in JavaScript on top of browser APIs.
+
+Virtual DOM: It creates a copy of the entire DOM in the memory. Shadow DOM: It does not create a complete representation of the entire DOM. It adds subtrees of DOM elements into the document instead of adding them to the main DOM tree.
+
+## What is React Fiber?
+Fiber is the new reconciliation engine or reimplementation of core algorithm in React v16. The goal of React Fiber is to increase its suitability for areas like animation, layout, gestures, ability to pause, abort, or reuse work and assign priority to different types of updates; and new concurrency primitives.
+
+## What is the main goal of React Fiber?
+The goal of React Fiber is to increase its suitability for areas like animation, layout, and gestures. Its headline feature is incremental rendering: the ability to split rendering work into chunks and spread it out over multiple frames.
+
+## What is the difference between a controlled component and an uncontrolled component?
+A component that controls the input elements within the forms on subsequent user input is called Controlled Component, i.e, every state mutation will have an associated handler function.
+
+The Uncontrolled Components are the ones that store their own state internally, and you query the DOM using a ref to find its current value when you need it. This is a bit more like traditional HTML.
+
+## What is the difference between createElement and cloneElement?
+JSX elements will be transpiled to React.createElement() functions to create React elements which are going to be used for the object representation of UI. Whereas cloneElement is used to clone an element and pass it new props.
+
+## What is Lifting State Up in React?
+When several components need to share the same changing data then it is recommended to lift the shared state up to their closest common ancestor. That means if two child components share the same data from its parent, then move the state to parent instead of maintaining local state in both of the child components.
+
+
 ## Explain how lists work in React
 ## How do you create forms in React?
 ## What is the significance of keys in React?
@@ -260,7 +647,7 @@ The static method getDerivedStateFromError is used to render a fallback UI after
 ## What are the advantages of ReactJS?
 ## What are the limitations of ReactJS?
 ## What is the difference between a class component and a functional component?
-## What is the difference between a controlled component and an uncontrolled component?
+
 ## What is the difference between a container component and a presentational component?
 ## What is the difference between a higher-order component and a render prop?
 ## What is the difference between a pure component and a stateful component?
